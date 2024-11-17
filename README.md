@@ -7,7 +7,7 @@ The **Automated Bio Generator** is a Flask-based web application that allows use
 
 ## Features
 - **User Input Form**: A simple form where users can enter their profession, interests, personality traits, and more.
-- **Personalized Bio Generation**: The app generates personalized bios using the Groq API, with options to adjust creativity levels and enhanced suggestions.
+- **Personalized Bio Generation**: The app generates personalized bios using the Llama3-8B, with options to adjust creativity levels and enhanced suggestions.
 - **Bio Preview**: The generated bios are displayed in a visually appealing format, with the option to copy them to the clipboard.
 - **Responsive Design**: The application is designed to be user-friendly and mobile-responsive.
 - **Environment Variables**: Secure handling of API keys using `.env` files.
