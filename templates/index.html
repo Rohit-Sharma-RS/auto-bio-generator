@@ -31,10 +31,8 @@
             <button type="submit">Generate Bio</button>
         </form>
 
-        <!-- Loading Spinner -->
         <div id="loadingSpinner" class="spinner"></div>
 
-        <!-- Display Bios -->
         {% if bios %}
         <div id="generatedBio" class="bio-cards-container">
             {% for key, bio in bios.items() %}
@@ -76,16 +74,15 @@
         const sliderValue = document.getElementById('temperatureValue');
 
         slider.addEventListener('input', () => {
-            sliderValue.textContent = slider.value; // Update slider text
+            sliderValue.textContent = slider.value; 
         });
     });
 
-        // Spinner functionality
         const form = document.getElementById('bioForm');
         const spinner = document.getElementById('loadingSpinner');
 
         form.addEventListener('submit', () => {
-            spinner.style.display = 'block'; // Show spinner
+            spinner.style.display = 'block'; 
         });
     </script>
 </body>

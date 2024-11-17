@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for
 from transformers import AutoTokenizer, AutoModelForCausalLM
 import os
 import dotenv
@@ -12,9 +12,8 @@ client = Groq(
 )
 
 app = Flask(__name__)
-app.secret_key = 'abc123'  # Required for flashing messages (optional)
+app.secret_key = 'abc123'
 
-# Store bios in a global dictionary for simplicity (or use session for temporary storage)
 generated_bios = {}
 
 @app.route('/')
@@ -23,14 +22,12 @@ def home():
 
 @app.route('/generate', methods=['POST'])
 def generate_bio():
-    # Get user input
     profession = request.form.get('profession')
     interests = request.form.get('interests')
     traits = request.form.get('traits')
     temperature = float(request.form.get('temperature'))
     about = request.form.get('about')
 
-    # Format the input for the AI model
     if about:
         prompt = f"I am a {profession} who is {traits} and enjoys {interests}. {about}"
     else:
@@ -63,10 +60,8 @@ def generate_bio():
     bio = chat_completion.choices[0].message.content
     bios = json.loads(bio)
 
-    # Store bios in a global variable (or session)
     generated_bios["bios"] = bios
 
-    # Redirect to the home page to display results
     return redirect(url_for('home'))
 
 if __name__ == "__main__":
