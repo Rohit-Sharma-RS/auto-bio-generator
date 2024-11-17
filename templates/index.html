@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DinnerTonight - Bio Generator</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Generate Your Personalized Bio</h1>
+        </div>
+        <form method="POST" action="/generate" id="bioForm">
+            <label for="profession">Profession:</label>
+            <input type="text" id="profession" name="profession" placeholder="e.g., Software Engineer" required>
+
+            <label for="interests">Interests:</label>
+            <input type="text" id="interests" name="interests" placeholder="e.g., Cooking, Travel" required>
+
+            <label for="traits">Personality Traits:</label>
+            <input type="text" id="traits" name="traits" placeholder="e.g., Creative, Compassionate" required>
+
+            <label for="about">Tell us more about yourself (optional):</label>
+            <input type="text" id="about" name="about" placeholder="e.g., I have a passion for teaching and mentoring others.">
+
+            <label for="temperature">Creativity Level of output:</label>
+            <input type="range" id="temperature" name="temperature" min="0.1" max="1" step="0.1" value="0.7">
+            <span id="temperatureValue">0.7</span>
+
+            <button type="submit">Generate Bio</button>
+        </form>
+
+        <!-- Loading Spinner -->
+        <div id="loadingSpinner" class="spinner"></div>
+
+        <!-- Display Bios -->
+        {% if bios %}
+        <div id="generatedBio" class="bio-cards-container">
+            {% for key, bio in bios.items() %}
+            <div class="bio-card">
+                <h3>Bio {{ loop.index }}</h3>
+                <p>{{ bio }}</p>
+                <button class="copy-btn" data-bio="{{ bio }}">Copy</button>
+            </div>
+            {% endfor %}
+        </div>
+        
+        {% endif %}
+    </div>
+
+    <footer style="text-align: center; padding: 1em 0; background-color: #343a40; color: #ffffff; border-top: 1px solid #e9ecef;">
+        <p>Created by Rohit Sharma</p>
+        <p>Follow me on 
+            <a href="https://github.com/Rohit-Sharma-RS" target="_blank" style="color: #1da1f2;">GitHub</a>, 
+            <a href="in.com/in/rohit-sharma-b26200282/" target="_blank" style="color: #1da1f2;">LinkedIn</a>
+        </p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+        // Handle "Copy to Clipboard" functionality
+        document.querySelectorAll(".copy-btn").forEach(button => {
+            button.addEventListener("click", () => {
+                const bioText = button.getAttribute("data-bio");
+                navigator.clipboard.writeText(bioText).then(() => {
+                    alert("Bio copied to clipboard!");
+                }).catch(err => {
+                    console.error("Failed to copy text: ", err);
+                });
+            });
+        });
+
+        // Update slider value dynamically
+        const slider = document.getElementById('temperature');
+        const sliderValue = document.getElementById('temperatureValue');
+
+        slider.addEventListener('input', () => {
+            sliderValue.textContent = slider.value; // Update slider text
+        });
+    });
+
+        // Spinner functionality
+        const form = document.getElementById('bioForm');
+        const spinner = document.getElementById('loadingSpinner');
+
+        form.addEventListener('submit', () => {
+            spinner.style.display = 'block'; // Show spinner
+        });
+    </script>
+</body>
+</html>
