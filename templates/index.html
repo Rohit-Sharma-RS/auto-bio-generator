@@ -11,7 +11,7 @@
         <div class="header">
             <h1>Generate Your Personalized Bio</h1>
         </div>
-        <form method="POST" action="/generate" id="bioForm">
+        <form method="POST" action="{{ url_for('generate_bio') }}" id="bioForm">
             <label for="profession">Profession:</label>
             <input type="text" id="profession" name="profession" placeholder="e.g., Software Engineer" required>
 

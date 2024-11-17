@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DinnerTonight - Bio Generator</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Generated bios, tailor-made for you 🧵✨"</h1>
+        </div>
+        
+        {% if bios %}
+        <div id="generatedBio" class="bio-cards-container">
+            {% for key, bio in bios.items() %}
+            <div class="bio-card">
+                <h3>Bio {{ loop.index }}</h3>
+                <p>{{ bio }}</p>
+                <button class="copy-btn" data-bio="{{ bio }}">Copy</button>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p>No bios available.</p>
+        {% endif %}
+
+        <div class="back-to-home">
+            <a href="{{ url_for('home') }}" class="button">Back to Home</a>
+        </div>
+    </div>
+
+    <footer style="text-align: center; padding: 1em 0; background-color: #343a40; color: #ffffff; border-top: 1px solid #e9ecef;">
+        <p>Created by Rohit Sharma</p>
+        <p>Follow me on 
+            <a href="https://github.com/Rohit-Sharma-RS" target="_blank" style="color: #1da1f2;">GitHub</a>, 
+            <a href="https://www.linkedin.com/in/rohit-sharma-b26200282/" target="_blank" style="color: #1da1f2;">LinkedIn</a>
+        </p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll(".copy-btn").forEach(button => {
+            button.addEventListener("click", () => {
+                const bioText = button.getAttribute("data-bio");
+                navigator.clipboard.writeText(bioText).then(() => {
+                    alert("Bio copied to clipboard!");
+                }).catch(err => {
+                    console.error("Failed to copy text: ", err);
+                });
+            });
+        });
+    });
+    </script>
+</body>
+</html>

@@ -12,13 +12,12 @@ client = Groq(
 )
 
 app = Flask(__name__)
-app.secret_key = 'abc123'
 
 generated_bios = {}
 
 @app.route('/')
 def home():
-    return render_template('index.html', bios=generated_bios.get("bios"))
+    return render_template('index.html')
 
 @app.route('/generate', methods=['POST'])
 def generate_bio():
@@ -37,14 +36,14 @@ def generate_bio():
         messages=[
             {
                 "role": "system",
-                "content": "You are an AI assistant tasked with generating dating app bios with emojis based on user input. Provide at least 4 bios in JSON format.Each bio should follow this structure:\n"
-                       "{\n"
-                       "  \"bio1\": \"Professional bio 1...\",\n"
-                       "  \"bio2\": \"Professional bio 2...\",\n"
-                       "  \"bio3\": \"Professional bio 3...\",\n"
-                       "  \"bio4\": \"Professional bio 4...\"\n"
-                       "}.\n"
-                       "Ensure the output is valid JSON, and only provide the JSON object without any additional text. Add emojis or hashtags to make the bios more engaging.",
+                "content": "You are an AI assistant tasked with generating dating app bios with emojis based on user input. Provide at least 4 bios in JSON format. Each bio should follow this structure:\n"
+                           "{\n"
+                           "  \"bio1\": \"Professional bio 1...\",\n"
+                           "  \"bio2\": \"Professional bio 2...\",\n"
+                           "  \"bio3\": \"Professional bio 3...\",\n"
+                           "  \"bio4\": \"Professional bio 4...\"\n"
+                           "}.\n"
+                           "Ensure the output is valid JSON, and only provide the JSON object without any additional text. Add emojis or hashtags to make the bios more engaging.",
             },
             {
                 "role": "user",
@@ -60,9 +59,17 @@ def generate_bio():
     bio = chat_completion.choices[0].message.content
     bios = json.loads(bio)
 
+    # Store the bios in the global dictionary
+    global generated_bios
     generated_bios["bios"] = bios
+    # Redirect to the new route for displaying bios
+    return redirect(url_for('show_bios'))
 
-    return redirect(url_for('home'))
+@app.route('/show_bios', methods=['GET', 'POST'])
+def show_bios():
+    global generated_bios
+    bios = generated_bios.get("bios") if generated_bios else None
+    return render_template('show_bios.html', bios=bios)
 
 if __name__ == "__main__":
     app.run(debug=True, use_reloader=False)
