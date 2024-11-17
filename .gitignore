@@ -1,2 +1,5 @@
 secrets.env
 using groq
+bios.txt
+data_generator.py
+static/scripts.json
