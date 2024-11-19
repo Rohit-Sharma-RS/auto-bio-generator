@@ -21,6 +21,20 @@ def home():
 
 @app.route('/generate', methods=['POST'])
 def generate_bio():
+    """
+    Generate a set of dating app bios based on user input and store them in a global dictionary.
+    This function handles POST requests to the '/generate' route. It retrieves user input from the form,
+    constructs a prompt for the AI model, and generates a set of bios in JSON format. The generated bios
+    are then stored in a global dictionary and the user is redirected to a route for displaying the bios.
+    Form Parameters:
+    - profession (str): The user's profession.
+    - interests (str): The user's interests.
+    - traits (str): The user's traits.
+    - temperature (float): The temperature setting for the AI model.
+    - about (str, optional): Additional information about the user.
+    Returns:
+    - Redirect: Redirects to the 'show_bios' route to display the generated bios.
+    """
     profession = request.form.get('profession')
     interests = request.form.get('interests')
     traits = request.form.get('traits')
